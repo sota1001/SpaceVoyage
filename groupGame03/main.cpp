@@ -5,6 +5,9 @@ const char TITLE[] = "K020G1121イシイソウタ：";
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
+
+	// TESTING
+
 	ChangeWindowMode(TRUE);						//ウィンドウモードに設定
 	//ウィンドウサイズを手動では変更できず、かつウィンドウサイズに合わせて拡大できないようにする
 	SetWindowSizeChangeEnableFlag(FALSE, FALSE);
