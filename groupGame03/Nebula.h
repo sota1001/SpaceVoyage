@@ -43,7 +43,7 @@ private:
 	int isActive;
 
 	//アルファ値
-	int screenEffectAlpha;
+	int alpha;
 
 	//ライティング
 	bool lightFlag;

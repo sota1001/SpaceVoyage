@@ -50,9 +50,9 @@ bool CollisionPN(Player *player, Nebula *nebula){
 
 	float distanceX = pow((double)particleX - playerX, 2);
 	float distanceY = pow((double)particleY - playerY, 2);
-	float distance = distanceX + distanceY;
+	float distance = sqrtf(distanceX + distanceY);
 
-	if (sqrtf(distance) < playerR + particleR * 3) {
+	if (distance < playerR + particleR * 3) {
 		return true;
 	}
 	return false;
@@ -71,9 +71,9 @@ bool CollisionPO(Player *player, Object *object){
 
 	float distanceX = pow((double)objectX - playerX, 2);
 	float distanceY = pow((double)objectY - playerY, 2);
-	float distance = distanceX + distanceY;
+	float distance = sqrtf(distanceX + distanceY);
 
-	if (sqrtf(distance) < playerR + objectR) {
+	if (distance < playerR + objectR) {
 		return true;
 	}
 	return false;

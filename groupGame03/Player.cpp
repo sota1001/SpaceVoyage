@@ -231,9 +231,9 @@ void Player::Draw() {
 	DrawCircle(x - camX, y - camY, 2, GetColor(255, 255, 255));
 	SetDrawBright(255, 255, 255);
 
-	DrawFormatString(
+	/*DrawFormatString(
 		0, 100, GetColor(255, 255, 255), "sX:%f\nsY:%f\naX:%f\naY:%f",
-		startX, startY, attackX, attackY);
+		startX, startY, attackX, attackY);*/
 }
 
 void Player::InputProcessing() {

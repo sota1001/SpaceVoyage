@@ -27,6 +27,12 @@ public:
 	float GetX() { return x; }
 	float GetY() { return y; }
 
+	float GetStartX() { return startX; }
+	float GetStartY() { return startY; }
+
+	float GetAttackX() { return attackX; }
+	float GetAttackY() { return attackY; }
+
 	bool GetIsAttack() { return isAttack; }
 
 private:

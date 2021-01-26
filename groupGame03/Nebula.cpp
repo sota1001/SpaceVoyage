@@ -23,7 +23,7 @@ Nebula::Nebula(int X, int Y) {
 
 	isActive = 0;
 
-	screenEffectAlpha = 60;
+	alpha = 60;
 
 	lightFlag = true;
 }
@@ -102,10 +102,10 @@ void Nebula::Draw() {
 	if (isActive == 1) {
 		//ライティング
 		if (lightFlag == true) {
-			SetDrawBlendMode(DX_BLENDMODE_ALPHA, screenEffectAlpha / 30);
+			SetDrawBlendMode(DX_BLENDMODE_ALPHA, alpha / 30);
 			DrawCircle(x - camX, y - camY, r * 3, GetColor(160, 160, 160), TRUE);
 		}
-		SetDrawBlendMode(DX_BLENDMODE_ADD, screenEffectAlpha);
+		SetDrawBlendMode(DX_BLENDMODE_ADD, alpha);
 		DrawCircle(x - camX, y - camY, r, GetColor(5, 55, 45), TRUE);
 		SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 	}

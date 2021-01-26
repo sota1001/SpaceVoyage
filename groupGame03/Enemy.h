@@ -7,7 +7,12 @@ public:
 	Enemy();
 	virtual void Update();
 	virtual void Draw();
-	
+
+	float GetX() { return x; }
+	float GetY() { return y; }
+
+	float GetSize() { return size; }
+
 protected:
 
 	float x;

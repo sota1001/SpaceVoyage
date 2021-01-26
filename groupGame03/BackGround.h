@@ -15,7 +15,7 @@ private:
 	//半径
 	int r;
 	//アルファ値
-	int screenEffectAlpha;
+	int alpha;
 	//ライティング
 	bool lightFlag;
 	//アルファ加算

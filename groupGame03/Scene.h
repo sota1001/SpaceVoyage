@@ -39,4 +39,7 @@ private:
 	int screenEffectAlpha;
 	int screenEffectTimer;
 
+	int vignetteAlpha;
+
+	int count;
 };

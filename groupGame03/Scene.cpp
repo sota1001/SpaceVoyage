@@ -1,7 +1,8 @@
 #include "Scene.h"
 
-Scene::Scene(){
-	
+Scene::Scene() {
+	count = 0;
+
 	//エミッター密度
 	density = 10;
 
@@ -14,17 +15,19 @@ Scene::Scene(){
 		emitterDown[i] = new Nebula(WIN_WIDTH / 2, WIN_HEIGHT);
 	}
 	player = new Player();
-	
+
 	currentScene = SCENE::INIT;
 
 	screenEffectGraph = LoadGraph("Resource/Image/ScreenEffect.png");
 	screenEffectAlpha = 0;
 	screenEffectTimer = 1;
-	
-	
+
+	vignetteAlpha = 100;
 }
 
-void Scene::Init(){
+void Scene::Init() {
+	count = 0;
+
 	//エミッター密度
 	density = 10;
 
@@ -43,26 +46,29 @@ void Scene::Init(){
 	screenEffectGraph = LoadGraph("Resource/Image/ScreenEffect.png");
 	screenEffectAlpha = 0;
 	screenEffectTimer = 1;
+
+	vignetteAlpha = 100;
+
 	Camera::Reset();
 	Load();
 	currentScene = SCENE::TITLE;
 }
 
-void Scene::Load(){
+void Scene::Load() {
 	objects.push_back(new LoopHole(500, 100, 300, 300));
 	objects.push_back(new LoopHole(300, 300, 500, 100));
 	objects[0]->Connect(objects[1]);
 	objects[1]->Connect(objects[0]);
 	objects.push_back(new Bomb(100, 400));
-	enemys.push_back(new ExplodingEnemy(1200, 300));
+	enemys.push_back(new ExplodingEnemy(300, 300));
 
 	player->LoadObjects(objects);
 }
 
-void Scene::Update(){
+void Scene::Update() {
 
 	Input::Update();
-	
+
 	if (Input::isKeyTrigger(KEY_INPUT_RETURN)) {
 		switch (currentScene) {
 			case SCENE::TITLE:
@@ -93,7 +99,6 @@ void Scene::Update(){
 			break;
 		case SCENE::GAME:
 			//更新処理
-			DrawFormatString(0, 0, GetColor(225, 225, 225), "\n\nCamX:%f",Camera::GetX());
 			//アクティベート
 			//背景
 			for (int i = 0; i < STAR_NUM; i++) {
@@ -137,9 +142,24 @@ void Scene::Update(){
 
 			//オブジェクト更新
 			for (int i = 0; i < objects.size(); i++) objects[i]->Update();
+
 			//カメラ更新
 			Camera::Update(player->GetX(), player->GetY());
-			
+
+			//プレイヤー攻撃
+			if (player->GetIsAttack() == true) {
+
+				vignetteAlpha = 25;
+				if (CollisionPAE(player, enemys[0])) {
+					count++;
+				}
+
+			}
+			else {
+				if (vignetteAlpha < 100) {
+					vignetteAlpha += 2;
+				}
+			}
 
 			//衝突判定(プレイヤーとエミッター)
 			for (int i = 0; i < EMITTER_MAX; i++) {
@@ -165,7 +185,12 @@ void Scene::Update(){
 			for (int i = 0; i < STAR_NUM; i++) {
 				background[i]->Draw();
 			}
-			
+
+			//ビネット描画
+			SetDrawBlendMode(DX_BLENDMODE_INVSRC, vignetteAlpha);
+			DrawGraph(0, 0, screenEffectGraph, true);
+			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
+
 			//エミッター描画
 			for (int i = 0; i < EMITTER_MAX; i++) {
 				emitterUp[i]->Draw();
@@ -188,6 +213,8 @@ void Scene::Update(){
 			SetDrawBlendMode(DX_BLENDMODE_NOBLEND, 0);
 			SetDrawBright(255, 255, 255);
 
+			DrawFormatString(0, 0, GetColor(225, 225, 225), "\n\nCamX:%f", Camera::GetX());
+			DrawFormatString(0, 300, GetColor(225, 225, 225), "ヒット回数:%d", count);
 			//emitterUp[0]->GenerationRangeDraw();
 			break;
 		case SCENE::GAMEOVER:
@@ -197,5 +224,5 @@ void Scene::Update(){
 		case SCENE::ENDING:
 			break;
 	}
-	
+
 }
